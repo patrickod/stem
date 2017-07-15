@@ -1,0 +1,17 @@
+language: python
+python:
+  - "2.7"
+  - "3.5"
+  - "3.6"
+  - "3.6-dev"
+  - "3.7-dev"
+before_install:
+  - echo "deb http://deb.torproject.org/torproject.org $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/tor.list
+  - gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+  - gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+  - sudo apt-get -qq update
+  - sudo apt-get -y install tor deb.torproject.org-keyring
+install:
+  - pip install .
+  - pip install -r requirements.txt
+script: python ./run_tests.py -a
